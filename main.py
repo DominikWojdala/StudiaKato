@@ -9,13 +9,14 @@ hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
 app = Flask(__name__)
 api = Api(app)
 
+
 class PeopleCounter(Resource):
     def get(self):
-# load image
+        # load image
         image = cv2.imread('Zakupy-przedswiateczne-w-PRL.jpg')
         image = cv2.resize(image, (700, 400))
 
-# detect people in the image
+        # detect people in the image
         (rects, weights) = hog.detectMultiScale(image, winStride=(4, 4), padding=(8, 8), scale=1.05)
 
         return {'peopleCount': len(rects)}
@@ -63,4 +64,3 @@ cv2.imshow('image', img)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
 '''
-
