@@ -2,7 +2,7 @@ import cv2
 from flask import Flask
 from flask_restful import Resource, Api
 
-# initialize the HOG descriptor/person detector
+            # initialize the HOG descriptor/person detector
 hog = cv2.HOGDescriptor()
 hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
 
