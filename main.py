@@ -1,6 +1,16 @@
 import cv2
 from flask import Flask, request
 from flask_restful import Resource, Api
+import os
+import requests
+
+#image_url = "https://d-art.ppstatic.pl/kadry/k/r/1/f8/d5/84dcc8f0709d66e6f7c22593b61d_o_original.jpg"
+#img_data = requests.get(image_url).content
+
+# Specify the desired directory and filename
+#save_path = os.path.join(r"C:\Users\student\StudiaKato", 'zony.jpg')
+
+
 
 # initialize the HOG descriptor/person detector
 hog = cv2.HOGDescriptor()
@@ -13,7 +23,7 @@ api = Api(app)
 class PeopleCounterStatic(Resource):
     def get(self):
         # load image
-        image = cv2.imread('wroclaw_glowny.jpeg')
+        image = cv2.imread('zony.jpg')
         image = cv2.resize(image, (700, 400))
 
         # detect people in the image
@@ -24,6 +34,7 @@ class PeopleCounterStatic(Resource):
 
 class PeopleCounterDynamicUrl(Resource):
     def get(self):
+
         # TODO:
         # 1. Pobrać zdjęcie z otrzymanego adresu
         # 2. Pobrane zdjęcie można zapisać na dysku lub przetwarzać je w pamięci podręcznej
@@ -31,7 +42,13 @@ class PeopleCounterDynamicUrl(Resource):
 
         url = request.args.get('url')
         print('url', url)
+        cv2.imshow("People detector", image)
+        img_data = requests.get(url).content
+        save_path = os.path.join(r"C:\Users\student\StudiaKato", 'zony.jpg')
+        with open(save_path, 'wb') as handler:
+            handler.write(img_data)
         return {'peopleCount': 0}
+
 
 
 api.add_resource(PeopleCounterStatic, '/')
